@@ -285,6 +285,9 @@
       /* headings inside dark result screens */
       .loading-screen h3,.xray-results h1,.xray-results h2,.xray-results h3{font-family:var(--font-display);font-weight:400}
       .loading-step{font-family:var(--font-mono)}
+      /* examination table on the loading/scan screen */
+      .loading-screen .xtable{position:relative;width:100%;max-width:520px;margin:0 auto 40px}
+      .loading-screen .xtable svg{display:block;width:100%;height:auto}
     </style>
 </head>
 <body>
@@ -319,7 +322,8 @@
         </div>
 
         <div class="loading-screen" id="loadingScreen">
-            <div class="scan-body-container">
+            <div class="xtable" id="xtable"></div>
+            <div class="scan-body-container" style="display:none">
                 <svg class="scan-body-outline" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
                     <ellipse cx="100" cy="32" rx="24" ry="28" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/>
                     <path d="M76 58 L56 128 L68 132 L78 90 L82 148 L64 270 L82 280 L100 180 L118 280 L136 270 L118 148 L122 90 L132 132 L144 128 L124 58" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/>
@@ -417,6 +421,41 @@ function shareScore(){if(!xrayData||!userData)return;const score=xrayData.overal
 function shareWhatsApp(){if(!xrayData||!userData)return;const d=xrayData,u=userData,ml=d.money_leak||{};const text=encodeURIComponent('\ud83d\udd2c *Business Automation X-Ray*\n\n\ud83d\udcca *'+u.business+'*\n\u26a1 Health Score: '+(d.overall_score||50)+'/100\n\ud83d\udcc8 Industry Avg: '+(d.industry_avg_score||55)+'/100\n\ud83d\udcb8 Money Leak: \u20b9'+(ml.monthly_loss_inr||0).toLocaleString('en-IN')+'/month\n\ud83d\udd0d Competitor Gap: '+(d.competitor_gap?.gap_score||0)+'/10\n\u23f1 Hours Saveable: '+(ml.hours_wasted_weekly||0)+'hrs/week\n\n\ud83d\udcc4 Get your free X-Ray: https://xray.avisha.ai\n\ud83d\udcde Book consultation: info@avishaai.com');window.open('https://wa.me/?text='+text,'_blank');}
 function downloadPDF(){if(!xrayData||!userData){alert('No report data.');return;}const d=xrayData,u=userData,score=d.overall_score||50,fillColor=score>=70?'#10B981':score>=40?'#F59E0B':'#EF4444',ml=d.money_leak||{},cg=d.competitor_gap||{},bp=d.blueprint||{},qw=d.quick_wins||[],compName=cg.competitor_name||u.competitorName||'Competitors';
 const w=window.open('','_blank');w.document.write('<!DOCTYPE html><html><head><title>'+u.business+' - X-Ray Report</title><style>@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap");*{margin:0;padding:0;box-sizing:border-box;}body{font-family:"Inter",sans-serif;color:#171452;background:white;}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}@page{margin:8mm;size:A4;}}.page{max-width:700px;margin:0 auto;padding:20px;}.header{background:linear-gradient(135deg,#4A6FF7,#6A19EB);color:white;padding:28px 32px;border-radius:12px;margin-bottom:24px;}.header h1{font-family:"Plus Jakarta Sans";font-size:22px;font-weight:800;margin-bottom:4px;}.header p{font-size:12px;opacity:0.85;}.score-box{text-align:center;padding:24px;margin-bottom:20px;border:2px solid #E5E7EB;border-radius:12px;}.score-big{font-family:"Plus Jakarta Sans";font-size:64px;font-weight:800;color:'+fillColor+';}.score-label{font-size:13px;color:#6B7280;margin-top:4px;}.benchmark{display:flex;justify-content:center;gap:32px;margin-top:12px;font-size:12px;color:#6B7280;}.benchmark strong{color:#171452;}.section{margin-bottom:20px;page-break-inside:avoid;}.section h2{font-family:"Plus Jakarta Sans";font-size:16px;font-weight:700;margin-bottom:8px;padding-bottom:6px;border-bottom:2px solid #E5E7EB;}.tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;margin-right:8px;font-family:"JetBrains Mono";}.tag-red{background:#FEE2E2;color:#EF4444;}.tag-yellow{background:#FEF3C7;color:#F59E0B;}.tag-green{background:#D1FAE5;color:#10B981;}.money{font-family:"Plus Jakarta Sans";font-size:32px;font-weight:800;color:#EF4444;text-align:center;margin:12px 0;}.stat-row{display:flex;gap:12px;margin-bottom:12px;}.stat-item{flex:1;text-align:center;background:#F8FAFC;border:1px solid #E5E7EB;border-radius:8px;padding:12px;}.stat-item .val{font-family:"Plus Jakarta Sans";font-size:20px;font-weight:700;}.stat-item .lbl{font-size:10px;color:#6B7280;margin-top:2px;}.detail-card{background:#F8FAFC;border:1px solid #E5E7EB;border-radius:8px;padding:12px;margin-bottom:8px;}.detail-card strong{font-size:13px;}.detail-card span{font-size:11px;color:#6B7280;}.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;}.comp-col{background:#F8FAFC;border:1px solid #E5E7EB;border-radius:8px;padding:12px;}.comp-col h4{font-size:12px;font-weight:600;margin-bottom:8px;}.comp-col li{font-size:11px;color:#6B7280;margin-bottom:4px;list-style:none;}.qw-item{display:flex;gap:10px;padding:10px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;margin-bottom:8px;}.qw-num{width:24px;height:24px;border-radius:50%;background:#10B981;color:white;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}.qw-text strong{font-size:12px;display:block;}.qw-text span{font-size:11px;color:#6B7280;}.cta-box{background:linear-gradient(135deg,#4A6FF7,#6A19EB);color:white;border-radius:12px;padding:24px;text-align:center;margin-top:20px;}.cta-box h3{font-size:16px;font-weight:700;margin-bottom:4px;}.cta-box p{font-size:12px;opacity:0.9;}.footer{text-align:center;font-size:9px;color:#9CA3AF;margin-top:16px;padding-top:12px;border-top:1px solid #E5E7EB;}</style></head><body><div class="page"><div class="header"><h1>\ud83d\udd2c Business Automation X-Ray</h1><p>Prepared for <strong>'+u.business+'</strong> by Avisha AI \u00b7 '+new Date().toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})+'</p><p style="margin-top:2px;">'+u.name+(u.email?' \u00b7 '+u.email:'')+'</p></div><div class="score-box"><div class="score-big">'+score+'/100</div><div class="score-label">'+(d.score_label||'Automation Health Score')+'</div><div class="benchmark"><span>You: <strong>'+score+'</strong></span><span>Industry Avg: <strong>'+(d.industry_avg_score||55)+'</strong></span></div><p style="font-size:12px;color:#6B7280;margin-top:12px;line-height:1.6;max-width:500px;margin-left:auto;margin-right:auto;">'+(d.summary||'')+'</p></div><div class="section"><h2><span class="tag tag-red">LAYER 2</span> Money Leak</h2><div class="money">\u20b9'+(ml.monthly_loss_inr||0).toLocaleString('en-IN')+'/month</div><div class="stat-row"><div class="stat-item"><div class="val" style="color:#EF4444;">\u20b9'+(ml.yearly_loss_inr||0).toLocaleString('en-IN')+'</div><div class="lbl">Yearly Loss</div></div><div class="stat-item"><div class="val">'+(ml.hours_wasted_weekly||0)+'hrs</div><div class="lbl">Wasted/Week</div></div><div class="stat-item"><div class="val">'+(ml.top_leaks||[]).length+'</div><div class="lbl">Leak Sources</div></div></div>'+(ml.top_leaks||[]).map(l=>'<div class="detail-card"><strong>'+l.task+'</strong><br><span>\u20b9'+(l.monthly_cost_inr||0).toLocaleString('en-IN')+'/mo \u00b7 '+l.hours_weekly+'hrs/week</span></div>').join('')+'</div><div class="section"><h2><span class="tag tag-yellow">LAYER 3</span> Competitor Gap vs '+compName+'</h2><div class="stat-row"><div class="stat-item"><div class="val" style="color:#F59E0B;">'+(cg.gap_score||0)+'/10</div><div class="lbl">Gap Score</div></div><div class="stat-item"><div class="val" style="color:#EF4444;">\u20b9'+(cg.revenue_advantage_inr||0).toLocaleString('en-IN')+'</div><div class="lbl">Their Advantage/mo</div></div></div><div class="comp-grid"><div class="comp-col"><h4 style="color:#10B981;">\u2705 '+compName+' Has</h4>'+(cg.they_have||[]).map(t=>'<li>\u00b7 '+t+'</li>').join('')+'</div><div class="comp-col"><h4 style="color:#EF4444;">\u274c You\'re Missing</h4>'+(cg.you_missing||[]).map(t=>'<li>\u00b7 '+t+'</li>').join('')+'</div></div></div><div class="section"><h2><span class="tag tag-green">LAYER 4</span> Blueprint: '+(bp.workflow_name||'Automation')+'</h2><p style="font-size:12px;color:#6B7280;margin-bottom:8px;line-height:1.5;">'+(bp.description||'')+'</p><div class="stat-row"><div class="stat-item"><div class="val" style="color:#10B981;">'+(bp.time_saved_weekly||0)+'hrs</div><div class="lbl">Saved/Week</div></div><div class="stat-item"><div class="val">'+(bp.build_time||'1-2 weeks')+'</div><div class="lbl">Build Time</div></div><div class="stat-item"><div class="val">'+(bp.tools_needed||[]).join(', ')+'</div><div class="lbl">Tools</div></div></div></div><div class="section"><h2>\u26a1 3 Quick Wins This Week</h2>'+qw.map((w,i)=>'<div class="qw-item"><div class="qw-num">'+(i+1)+'</div><div class="qw-text"><strong>'+w.title+'</strong><span>'+w.description+' <strong style="color:#10B981;">'+w.impact+'</strong></span></div></div>').join('')+'</div><div class="cta-box"><h3>Ready to automate? Let\'s talk!</h3><p>Email: info@avishaai.com \u00b7 WhatsApp: +91 99671 46038 \u00b7 Web: avisha.ai</p></div><div class="footer">Avisha AI \u2014 Business X-Ray Report \u2014 xray.avisha.ai</div></div></body></html>');w.document.close();setTimeout(()=>{w.print();},600);}
+</script>
+<!-- ============================================================
+     Instrument examination-table for the loading/scan screen.
+     ADDITIVE ONLY — new engines + a class observer. No existing
+     function, id, or handler is modified. Starts when #loadingScreen
+     gains .active (set by the app's own submitXray).
+     ============================================================ -->
+<script>window.XRAY_GLOW='gold';</script>
+<script src="scripts/01-table.js"></script>
+<script src="scripts/02-scan.js"></script>
+<script src="scripts/05-diagnostic.js"></script>
+<script src="scripts/07-examination.js"></script>
+<script>
+(function(){
+  var started=false;
+  function startScan(){
+    if(started||!window.AvishaXray) return; started=true;
+    try{
+      window.AvishaXray.init({});
+      var demo=['website','crm','social','email','orders','inventory','payments','ops','shipping','reporting','accounts','support','analytics'];
+      if(window.AvishaXray.connect) window.AvishaXray.connect(demo);
+      var dg=window.AvishaDiagnostic.diagnose(demo,{responseTime:'Days or more',afterHours:'Often missed',painDescription:'orders re-keyed into ERP by hand'});
+      window.AvishaExamination.setNodes(window.AvishaXray.nodeGeometry());
+      window.AvishaExamination.run({material:null,table:window.AvishaXray,diagnosis:dg,sound:null,
+        setRail:function(){},setStatus:function(){},onComplete:function(){}});
+    }catch(e){ console.warn('xray table:', e); }
+  }
+  function watch(){
+    var ls=document.getElementById('loadingScreen'); if(!ls) return;
+    if(ls.classList.contains('active')) startScan();
+    new MutationObserver(function(){ if(ls.classList.contains('active')) startScan(); })
+      .observe(ls,{attributes:true,attributeFilter:['class']});
+  }
+  if(document.readyState!=='loading') watch(); else document.addEventListener('DOMContentLoaded',watch);
+})();
 </script>
 </body>
 </html>
