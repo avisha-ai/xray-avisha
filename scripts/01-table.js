@@ -244,7 +244,12 @@
       if(lit.indexOf(s.id)<0)return;
       SYSTEMS.forEach(function(o){
         var adj=(s.row===o.row&&o.col===s.col+1)||(s.col===o.col&&o.row===s.row+1);
-        if(adj&&lit.indexOf(o.id)>-1){var a=ctr(s),b=ctr(o);slabG.appendChild(e('line',{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:'#a8863f','stroke-width':'2','stroke-linecap':'round'}));slabG.appendChild(e('circle',{cx:(a.x+b.x)/2,cy:(a.y+b.y)/2,r:2.6,fill:'#c9a552',stroke:'#7a6329','stroke-width':'0.5'}));}
+        if(adj&&lit.indexOf(o.id)>-1){var a=ctr(s),b=ctr(o);
+          // carved stone trench (recessed channel) — the lightning runs through it
+          slabG.appendChild(e('line',{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:'#0b0b0d','stroke-width':'7','stroke-linecap':'round','opacity':'0.92'}));
+          slabG.appendChild(e('line',{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:'rgba(255,255,255,0.05)','stroke-width':'8','stroke-linecap':'round'}));
+          slabG.appendChild(e('line',{x1:a.x,y1:a.y,x2:b.x,y2:b.y,stroke:'#040405','stroke-width':'2.6','stroke-linecap':'round'}));
+          slabG.appendChild(e('circle',{cx:(a.x+b.x)/2,cy:(a.y+b.y)/2,r:3,fill:'#060607',stroke:'#33343a','stroke-width':'0.6'}));}
       });
     });
   }
@@ -257,7 +262,7 @@
     var hot=GC.core;
     var seed=(f._seed||99991);
     var dd=fracturePath(ca.x,ca.y,cb.x,cb.y,seed);
-    var g=e('g',{opacity:'0'});
+    var g=e('g',{opacity:'0','class':'x-bolt'});
     // wide soft bloom — reads through the gaps and spills onto tile edges
     g.appendChild(e('path',{d:dd,fill:'none',stroke:sev,'stroke-width':'18',filter:'url(#xGlowBig)',opacity:'0.5','stroke-linecap':'round'}));
     // inner glow

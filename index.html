@@ -288,6 +288,45 @@
       /* examination table on the loading/scan screen */
       .loading-screen .xtable{position:relative;width:100%;max-width:520px;margin:0 auto 40px}
       .loading-screen .xtable svg{display:block;width:100%;height:auto}
+
+      /* ===== HEAVY SKEUOMORPHIC PASS (form · loading · report) ===== */
+      /* CRT scanlines over the dark scan/report screens (render only when active) */
+      .loading-screen::after,.xray-results::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:60;
+        background:repeating-linear-gradient(0deg,rgba(0,0,0,.12) 0 1px,transparent 1px 3px)}
+      /* machined metal/stone panels */
+      .section-card,#emailGate,#layer1,#layer2,#layer3,#layer4,#quickWinsSection,#lockedTeaser{
+        position:relative;background:linear-gradient(180deg,#191a1e,#0f1012)!important;
+        border:1px solid #2a2c31!important;border-radius:6px!important;
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.05),inset 0 0 40px rgba(0,0,0,.5),0 30px 60px -40px #000,0 2px 0 #24262b!important}
+      /* corner rivets on the panels */
+      .section-card::before,#layer1::before,#layer2::before,#layer3::before,#layer4::before,#quickWinsSection::before{
+        content:'';position:absolute;inset:7px;pointer-events:none;border-radius:4px;background-repeat:no-repeat;z-index:0;
+        background:
+         radial-gradient(circle at 0 0,#5a5d63 0 1.8px,#141519 2.2px 3.4px,transparent 3.9px),
+         radial-gradient(circle at 100% 0,#5a5d63 0 1.8px,#141519 2.2px 3.4px,transparent 3.9px),
+         radial-gradient(circle at 0 100%,#5a5d63 0 1.8px,#141519 2.2px 3.4px,transparent 3.9px),
+         radial-gradient(circle at 100% 100%,#5a5d63 0 1.8px,#141519 2.2px 3.4px,transparent 3.9px)}
+      .section-card>*{position:relative;z-index:1}
+      /* recessed input slots */
+      .field input,.field select,.field textarea{background:#0a0a0c!important;
+        box-shadow:inset 0 2px 5px rgba(0,0,0,.6),inset 0 0 0 1px #050506!important}
+      /* mechanical buttons */
+      .btn-primary{background:linear-gradient(180deg,#3f7fb0,#2b5f88)!important;color:#eaf6ff!important;
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.25),inset 0 -3px 8px rgba(0,0,0,.35),0 3px 0 #14324a,0 6px 12px rgba(0,0,0,.5)!important}
+      .btn-primary:active{transform:translateY(2px);box-shadow:inset 0 2px 6px rgba(0,0,0,.5),0 1px 0 #14324a!important}
+      .btn-secondary{background:linear-gradient(180deg,#212327,#141518)!important;
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 3px 0 #050506!important}
+      /* report stat tiles → metal */
+      .layer-stat{background:linear-gradient(180deg,#141518,#0d0e10)!important;border:1px solid #26282d!important;
+        box-shadow:inset 0 1px 0 rgba(255,255,255,.04),inset 0 -3px 8px rgba(0,0,0,.5)!important;border-radius:5px!important}
+      /* loading table → metal-framed */
+      .loading-screen .xtable{padding:14px;background:linear-gradient(160deg,#17181b,#0c0d0f);
+        border:10px solid transparent;border-image:linear-gradient(150deg,#43464c,#141518 45%,#0a0b0d 60%,#3a3d43) 1;
+        box-shadow:inset 0 0 0 2px #050506,inset 0 0 50px rgba(0,0,0,.8),0 40px 90px -40px #000}
+      /* blue electrical lightning flicker */
+      .x-bolt{animation:xbolt 3.1s ease-in-out infinite}
+      @keyframes xbolt{0%,43%,57%,100%{filter:none}46%{filter:brightness(1.35)}49%{filter:brightness(2.1)}52%{filter:brightness(1.35)}}
+      @media(prefers-reduced-motion:reduce){.x-bolt{animation:none}}
     </style>
 </head>
 <body>
@@ -428,7 +467,7 @@ const w=window.open('','_blank');w.document.write('<!DOCTYPE html><html><head><t
      function, id, or handler is modified. Starts when #loadingScreen
      gains .active (set by the app's own submitXray).
      ============================================================ -->
-<script>window.XRAY_GLOW='gold';</script>
+<script>window.XRAY_GLOW='blue';</script>
 <script src="scripts/01-table.js"></script>
 <script src="scripts/02-scan.js"></script>
 <script src="scripts/05-diagnostic.js"></script>
